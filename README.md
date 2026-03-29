@@ -9,25 +9,25 @@
 ## Start here (most important)
 
 ### 3–5 min canonical demo
-- Script: `python3 scripts/demo_match_integrity.py`
-- Walkthrough: `docs/DEMO_MATCH_INTEGRITY_SCRIPT.md`
+- Script command: `python3 scripts/demo_match_integrity.py`
+- Walkthrough: [DEMO_MATCH_INTEGRITY_SCRIPT.md](docs/DEMO_MATCH_INTEGRITY_SCRIPT.md)
 - Core scenario: valid -> tamper fail -> continuity fail
 
 ### Key fixtures
-- Technical fixture: `fixtures/mldsa/vector_001.json`
-- Historical/provenance fixture: `fixtures/mldsa/vector_raw.json`
+- Technical fixture: [vector_001.json](fixtures/mldsa/vector_001.json)
+- Historical/provenance fixture: [vector_raw.json](fixtures/mldsa/vector_raw.json)
 
 ### Key narratives
-- PQ narrative: `docs/PQ_DEMO_NARRATIVE.md`
-- Hybrid provenance narrative: `docs/HYBRID_PROVENANCE_DEMO.md`
-- Short pitch: `docs/SHORT_PITCH.md`
-- Magicians outreach draft: `docs/OUTREACH_POST_MAGICIANS.md`
+- PQ narrative: [PQ_DEMO_NARRATIVE.md](docs/PQ_DEMO_NARRATIVE.md)
+- Hybrid provenance narrative: [HYBRID_PROVENANCE_DEMO.md](docs/HYBRID_PROVENANCE_DEMO.md)
+- Short pitch: [SHORT_PITCH.md](docs/SHORT_PITCH.md)
+- Magicians outreach draft: [OUTREACH_POST_MAGICIANS.md](docs/OUTREACH_POST_MAGICIANS.md)
 
 ### Visual demo pack
-- `docs/visuals/THREAT_MODEL.md`
-- `docs/visuals/AUDIT_TRAIL_FLOW.md`
-- `docs/visuals/ANCHORING_FLOW.md`
-- `docs/visuals/DEMO_SCREEN_GUIDE.md`
+- [THREAT_MODEL.md](docs/visuals/THREAT_MODEL.md)
+- [AUDIT_TRAIL_FLOW.md](docs/visuals/AUDIT_TRAIL_FLOW.md)
+- [ANCHORING_FLOW.md](docs/visuals/ANCHORING_FLOW.md)
+- [DEMO_SCREEN_GUIDE.md](docs/visuals/DEMO_SCREEN_GUIDE.md)
 
 ---
 
@@ -81,12 +81,12 @@ This repo answers a separate question:
 ---
 
 ## Quick navigation
-- Architecture: `docs/ARCHITECTURE.md`
-- Roadmap: `docs/ROADMAP.md`
-- Adapter contracts: `docs/ADAPTER_INTERFACES.md`
-- ML-DSA real path notes: `docs/MLDSA_REAL_BACKEND_PATH.md`
-- Demo index: `docs/DEMO_INDEX.md`
-- Hardhat lane: `docs/HARDHAT_TEST_LANE.md`
+- Architecture: [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- Roadmap: [ROADMAP.md](docs/ROADMAP.md)
+- Adapter contracts: [ADAPTER_INTERFACES.md](docs/ADAPTER_INTERFACES.md)
+- ML-DSA real path notes: [MLDSA_REAL_BACKEND_PATH.md](docs/MLDSA_REAL_BACKEND_PATH.md)
+- Demo index: [DEMO_INDEX.md](docs/DEMO_INDEX.md)
+- Hardhat lane: [HARDHAT_TEST_LANE.md](docs/HARDHAT_TEST_LANE.md)
 
 ---
 
