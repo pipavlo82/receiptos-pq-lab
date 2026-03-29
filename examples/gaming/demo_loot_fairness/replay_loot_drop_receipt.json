@@ -1,0 +1,42 @@
+{
+  "receipt_id": "demo_loot_valid_001",
+  "event_type": "loot_drop",
+  "core_receipt_ref": "receipt_sha256:demo_loot_valid_001",
+  "game_event": {
+    "game_id": "arena-alpha",
+    "session_id": "sess-loot-1",
+    "event_ts_utc": "2026-03-29T19:00:00Z",
+    "actor_id": "player-42",
+    "policy_version": "loot-v3",
+    "payload": {
+      "drop_table_id": "epic_weekend",
+      "item_awarded": "phoenix_bow"
+    }
+  },
+  "receipt_extension": {
+    "extension_version": "x1",
+    "mode": "entropy_proof",
+    "entropy": {
+      "entropy_score": 0.79,
+      "entropy_source": "runtime_entropy_v1",
+      "freshness_window_sec": 120,
+      "sample_ts_utc": "2026-03-29T19:00:00Z"
+    },
+    "vrf": {
+      "proof": "vrf_proof_loot_valid_001",
+      "public_key": "vrf_pk_game_ops",
+      "domain": "loot-drop"
+    },
+    "policy_path": {
+      "selected_path": "entropy_proof",
+      "fallback_path": "baseline",
+      "reason": "fairness-critical",
+      "required": false
+    }
+  },
+  "chain": {
+    "prev_hash": "hash_loot_prev_000",
+    "seq": 201
+  },
+  "replay_note": "Intentional duplicate receipt_id + seq for replay demo."
+}

@@ -1,0 +1,49 @@
+{
+  "receipt_id": "demo_match_valid_001",
+  "event_type": "match_result",
+  "core_receipt_ref": "receipt_sha256:demo_match_valid_001",
+  "game_event": {
+    "game_id": "arena-alpha",
+    "session_id": "sess-match-7",
+    "match_id": "tourn-sf-02",
+    "event_ts_utc": "2026-03-29T19:15:00Z",
+    "policy_version": "tournament-v2",
+    "payload": {
+      "team_a": "red",
+      "team_b": "blue",
+      "winner": "red",
+      "score": "16-14"
+    }
+  },
+  "receipt_extension": {
+    "extension_version": "x1",
+    "mode": "hybrid",
+    "pq_signature": {
+      "alg": "MLDSA-STUB-V1",
+      "key_id": "match-key-1",
+      "sig": "mldsa_sig_match_valid_001",
+      "public_key": "mldsa_pk_match_ops"
+    },
+    "entropy": {
+      "entropy_score": 0.68,
+      "entropy_source": "runtime_entropy_v1",
+      "freshness_window_sec": 180,
+      "sample_ts_utc": "2026-03-29T19:14:40Z"
+    },
+    "vrf": {
+      "proof": "vrf_proof_match_valid_001",
+      "public_key": "vrf_pk_match_ops",
+      "domain": "match-order"
+    },
+    "policy_path": {
+      "selected_path": "hybrid",
+      "fallback_path": "signature_extension",
+      "reason": "high-stakes-tournament",
+      "required": true
+    }
+  },
+  "chain": {
+    "prev_hash": "hash_match_prev_000",
+    "seq": 5001
+  }
+}
