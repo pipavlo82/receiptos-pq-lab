@@ -6,6 +6,29 @@
 
 `receiptos-pq-lab` is an **optional extension lab** for post-quantum and entropy/VRF trust paths on top of ReceiptOS.
 
+## Start here (most important)
+
+### 3–5 min canonical demo
+- Script: `python3 scripts/demo_match_integrity.py`
+- Walkthrough: `docs/DEMO_MATCH_INTEGRITY_SCRIPT.md`
+- Core scenario: valid -> tamper fail -> continuity fail
+
+### Key fixtures
+- Technical fixture: `fixtures/mldsa/vector_001.json`
+- Historical/provenance fixture: `fixtures/mldsa/vector_raw.json`
+
+### Key narratives
+- PQ narrative: `docs/PQ_DEMO_NARRATIVE.md`
+- Hybrid provenance narrative: `docs/HYBRID_PROVENANCE_DEMO.md`
+- Short pitch: `docs/SHORT_PITCH.md`
+- Magicians outreach draft: `docs/OUTREACH_POST_MAGICIANS.md`
+
+### Visual demo pack
+- `docs/visuals/THREAT_MODEL.md`
+- `docs/visuals/AUDIT_TRAIL_FLOW.md`
+- `docs/visuals/ANCHORING_FLOW.md`
+- `docs/visuals/DEMO_SCREEN_GUIDE.md`
+
 ---
 
 ## Why this repo exists
