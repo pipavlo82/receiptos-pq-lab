@@ -6,7 +6,8 @@ from .pq_signature_adapter import (
 )
 from .mldsa_adapter import MLDSAAdapter
 from .mldsa_backend_mock import MockMLDSABackend
-from .entropy_proof_adapter import MockEntropyProofAdapter, verify_entropy_proof_with_adapter
+from .entropy_adapter import EntropyAdapter, verify_entropy_contract, verify_entropy_proof_with_adapter
+from .vrf_backend_mock import MockVRFBackend
 from .hybrid_adapter import verify_hybrid_with_adapters
 
 __all__ = [
@@ -14,9 +15,11 @@ __all__ = [
     "MLDSAAdapterStub",
     "MLDSAAdapter",
     "MockMLDSABackend",
+    "EntropyAdapter",
+    "MockVRFBackend",
     "verify_pq_signature_contract",
     "verify_pq_signature_with_adapter",
-    "MockEntropyProofAdapter",
+    "verify_entropy_contract",
     "verify_entropy_proof_with_adapter",
     "verify_hybrid_with_adapters",
 ]
