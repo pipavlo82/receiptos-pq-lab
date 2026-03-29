@@ -1,0 +1,13 @@
+{
+  "name": "receiptos-pq-lab-hardhat",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal Hardhat anchoring lane for ReceiptOS PQ Lab",
+  "scripts": {
+    "test:hardhat": "hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.10"
+  }
+}
