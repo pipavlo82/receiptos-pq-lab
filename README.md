@@ -1,64 +1,72 @@
 # ReceiptOS PQ Lab
 
-`receiptos-pq-lab` is an **experimental architecture repository** for optional post-quantum and entropy-proof extensions to ReceiptOS.
+[![Status](https://img.shields.io/badge/status-experimental-blue)](#)
+[![Mode](https://img.shields.io/badge/off--chain-first-6f42c1)](#)
+[![Focus](https://img.shields.io/badge/focus-adapter%20boundaries-0a7ea4)](#)
+
+`receiptos-pq-lab` is an **optional extension lab** for post-quantum and entropy/VRF trust paths on top of ReceiptOS.
+
+---
 
 ## Why this repo exists
-ReceiptOS MVP (`receiptos-mvp`) is the baseline trust layer: sign, verify, replay detection, chain checks.
+`receiptos-mvp` is the baseline trust layer (sign/verify/replay/chain).
 
-This repo exists to answer a separate question:
-> How do we extend ReceiptOS toward stronger cryptographic trust (PQ/entropy/VRF) **without breaking** the core MVP contract?
+This repo answers a separate question:
+> How do we evolve toward stronger cryptographic trust **without breaking** the baseline MVP contract?
 
-## How this differs from `receiptos-mvp`
-- **receiptos-mvp**
-  - product shell + demo-ready trust layer
-  - pragmatic baseline verification
-  - stable interface for outreach
-- **receiptos-pq-lab**
-  - architecture + schema + interface lab
-  - optional extension envelope design
-  - failure semantics and integration strategy first
+---
 
-No core MVP mutation is required for work in this repo.
+## What this is (and is not)
 
-## What “PQ / entropy / VRF extension layer” means
-An **additive envelope** attached to (or referenced by) a core receipt, with optional fields for:
-- alternate signature tracks (PQ-ready path)
-- entropy/freshness attestations
-- VRF-style proof context
-- policy routing metadata for verifier behavior
+### ✅ This repo is
+- an additive extension architecture and integration lab
+- a place for stable adapter/backend contracts
+- a demo/outreach-ready PQ + provenance + gaming vertical sandbox
 
-## Core vs optional boundary
-- **Core receipt (source of truth):** stays in ReceiptOS MVP contract
-- **Extension envelope (optional):** can be absent, partial, or mode-specific
-- **Verification model:**
-  - baseline-only is always valid
-  - extension checks can be enabled by policy
-  - downgrade behavior must be explicit and auditable
+### ❌ This repo is not
+- a replacement for `receiptos-mvp`
+- a production-complete PQ verifier package
+- a heavy on-chain cryptography repo
 
-## Current status (architecture-first)
-This repo intentionally avoids heavy crypto implementation right now.
+---
 
-Current focus:
-1. architecture and integration contracts
-2. additive schema direction
-3. failure semantics and mode routing
+## Current implementation status
 
-## Repository layout
-- `docs/ARCHITECTURE.md` — integration models and failure semantics
-- `docs/ROADMAP.md` — phased plan + explicit non-goals
-- `schemas/` — additive extension schema drafts
-- `examples/` — sample extension payloads (pq / entropy / hybrid)
-- `src/` — interface stubs only
-- `tests/` — structure/contract-level checks
+### Implemented now
+- Additive extension schema direction (`signature_extension`, `entropy_proof`, `hybrid`)
+- Reference verifier layer (deterministic mode routing + failure semantics)
+- Adapter contract layer + reason normalization taxonomy
+- ML-DSA backend boundary (transitional real path wiring)
+- Fixture loaders:
+  - technical: `fixtures/mldsa/vector_001.json`
+  - historical/provenance-rich: `fixtures/mldsa/vector_raw.json`
+- Gaming vertical lane (loot fairness, match integrity, NPC provenance)
+- Minimal Hardhat anchoring lane (receipt/event anchoring + continuity guards)
+- Demo packaging docs + scripts for outreach
 
-## Non-goals (current phase)
-- production cryptography implementation
-- replacing core ReceiptOS MVP
-- enterprise deployment hardening
+### Still transitional
+- Full production-grade ML-DSA runtime verification in this repo
+- Full cryptographic backend hardening and ops policies
 
-## Positioning
-Use this repo as a **serious optional extension lab**, not as a replacement product.
+---
 
-Core statement:
+## Core boundary model
+- **Core receipt (source of truth):** remains in `receiptos-mvp`
+- **Extension envelope (optional/additive):** lives here
+- **Output invariants:** stable normalized verification shapes + deterministic reason codes
+
+---
+
+## Quick navigation
+- Architecture: `docs/ARCHITECTURE.md`
+- Roadmap: `docs/ROADMAP.md`
+- Adapter contracts: `docs/ADAPTER_INTERFACES.md`
+- ML-DSA real path notes: `docs/MLDSA_REAL_BACKEND_PATH.md`
+- Demo index: `docs/DEMO_INDEX.md`
+- Hardhat lane: `docs/HARDHAT_TEST_LANE.md`
+
+---
+
+## Positioning sentence
 - `receiptos-mvp` = baseline verifiable execution layer
-- `receiptos-pq-lab` = optional advanced trust extension R&D
+- `receiptos-pq-lab` = optional advanced trust extension R&D (PQ/entropy/VRF)
