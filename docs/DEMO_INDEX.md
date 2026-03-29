@@ -11,7 +11,9 @@
   - `examples/gaming/demo_loot_fairness/`
 - Match integrity:
   - `docs/GAMING_DEMO_MATCH_INTEGRITY.md`
+  - `docs/DEMO_MATCH_INTEGRITY_SCRIPT.md`
   - `examples/gaming/demo_match_integrity/`
+  - CLI wrapper: `scripts/demo_match_integrity.py`
 - Vertical summary:
   - `docs/GAMING_VERTICAL_SUMMARY.md`
 
@@ -20,9 +22,11 @@
   - `docs/PQ_DEMO_NARRATIVE.md`
 - Hybrid provenance narrative:
   - `docs/HYBRID_PROVENANCE_DEMO.md`
+- Historical payload note:
+  - `docs/HISTORICAL_VECTOR_RAW.md`
 - Fixtures:
   - technical: `fixtures/mldsa/vector_001.json`
-  - historical: `fixtures/mldsa/vector_raw.json`
+  - historical/richer: `fixtures/mldsa/vector_raw.json`
 
 ## 4) Hardhat Anchoring Demo
 - Minimal on-chain integrity harness:
@@ -32,8 +36,12 @@
   - `test/ReceiptAnchor.test.js`
   - `test/GameEventAnchor.test.js`
 
+## 5) Outreach Packaging
+- Short pitch: `docs/SHORT_PITCH.md`
+- Magicians draft: `docs/OUTREACH_POST_MAGICIANS.md`
+
 ## Recommended first outreach flow
-1. MVP baseline trust primitive
-2. Gaming vertical (match integrity first)
-3. PQ fixture + historical provenance pairing
-4. Hardhat anchoring as Ethereum-native extension
+1. Match Integrity (3–5 min canonical script)
+2. Tamper + continuity fail semantics
+3. `vector_raw` provenance bridge over `vector_001`
+4. Optional Hardhat anchor + duplicate guard
