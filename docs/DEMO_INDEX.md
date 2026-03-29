@@ -40,6 +40,12 @@
 - Short pitch: `docs/SHORT_PITCH.md`
 - Magicians draft: `docs/OUTREACH_POST_MAGICIANS.md`
 
+## 6) Visual Demo Pack
+- Threat model: `docs/visuals/THREAT_MODEL.md`
+- Audit trail flow: `docs/visuals/AUDIT_TRAIL_FLOW.md`
+- Anchoring flow: `docs/visuals/ANCHORING_FLOW.md`
+- Screen guide: `docs/visuals/DEMO_SCREEN_GUIDE.md`
+
 ## Recommended first outreach flow
 1. Match Integrity (3–5 min canonical script)
 2. Tamper + continuity fail semantics
