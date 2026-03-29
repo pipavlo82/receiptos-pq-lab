@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, Protocol
 
-from .mldsa_adapter_stub import verify_mldsa_stub
+from .mldsa_adapter import MLDSAAdapter
 from .reason_mapping import normalize_adapter_output, normalize_exception, normalize_result
 
 
@@ -32,18 +32,11 @@ class PQSignatureAdapter(Protocol):
     def verify(self, payload: Dict[str, Any]) -> Dict[str, Any]: ...
 
 
-class MLDSAAdapterStub:
-    """Stub adapter wrapping deterministic ML-DSA placeholder verifier."""
-
-    def verify(self, payload: Dict[str, Any]) -> Dict[str, Any]:
-        return verify_mldsa_stub(payload)
+# Backward-compatible name kept for existing callers/tests.
+MLDSAAdapterStub = MLDSAAdapter
 
 
 def build_pq_payload_from_extension(extension: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Adapter payload builder from extension envelope, preserving current integration shape.
-    Does not change schema direction; simply projects extension fields into adapter contract.
-    """
     pq = extension.get("pq_signature") or {}
     return {
         "scheme_id": pq.get("alg") or extension.get("scheme_id") or "",
@@ -60,10 +53,6 @@ def build_pq_payload_from_extension(extension: Dict[str, Any]) -> Dict[str, Any]
 
 
 def verify_pq_signature_contract(payload: Dict[str, Any], adapter: PQSignatureAdapter) -> Dict[str, Any]:
-    """
-    Adapter-contract normalized output requested for PQ layer:
-      { valid, adapter_result, adapter_reason, normalized_reason_code, details }
-    """
     try:
         raw = adapter.verify(payload)
         return normalize_adapter_output(raw)
@@ -79,11 +68,6 @@ def verify_pq_signature_contract(payload: Dict[str, Any], adapter: PQSignatureAd
 
 
 def verify_pq_signature_with_adapter(extension: Dict[str, Any], adapter: PQSignatureAdapter) -> Dict[str, Any]:
-    """
-    Compatibility wrapper for existing integration shape:
-      { valid, mode, reason_code, checks, fail_path }
-    while also exposing adapter-contract fields.
-    """
     payload = build_pq_payload_from_extension(extension)
     try:
         raw = adapter.verify(payload)

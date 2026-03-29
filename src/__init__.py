@@ -4,12 +4,16 @@ from .pq_signature_adapter import (
     verify_pq_signature_contract,
     verify_pq_signature_with_adapter,
 )
+from .mldsa_adapter import MLDSAAdapter
+from .mldsa_backend_mock import MockMLDSABackend
 from .entropy_proof_adapter import MockEntropyProofAdapter, verify_entropy_proof_with_adapter
 from .hybrid_adapter import verify_hybrid_with_adapters
 
 __all__ = [
     "verify_extension",
     "MLDSAAdapterStub",
+    "MLDSAAdapter",
+    "MockMLDSABackend",
     "verify_pq_signature_contract",
     "verify_pq_signature_with_adapter",
     "MockEntropyProofAdapter",
