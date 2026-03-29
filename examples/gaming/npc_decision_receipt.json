@@ -1,0 +1,40 @@
+{
+  "receipt_id": "gr_npc_12001",
+  "event_type": "npc_decision",
+  "core_receipt_ref": "receipt_sha256:core_npc_12001",
+  "game_event": {
+    "game_id": "arena-alpha",
+    "session_id": "sess-12001",
+    "event_ts_utc": "2026-03-29T18:15:00Z",
+    "actor_id": "npc-guard-7",
+    "policy_version": "npc-brain-v5",
+    "payload": {
+      "state": "alert",
+      "observations": ["enemy_nearby", "low_health"],
+      "decision": "retreat_and_call_backup"
+    }
+  },
+  "receipt_extension": {
+    "extension_version": "x1",
+    "mode": "signature_extension",
+    "pq_signature": {
+      "alg": "MLDSA-STUB-V1",
+      "key_id": "npc-key-3",
+      "sig": "mldsa_sig_npc_12001",
+      "public_key": "mldsa_pk_npc_ops"
+    },
+    "policy_path": {
+      "selected_path": "signature_extension",
+      "fallback_path": "baseline",
+      "reason": "agent-decision-provenance",
+      "required": false
+    }
+  },
+  "chain": {
+    "prev_hash": "hash_prev_npc_12000",
+    "seq": 12001
+  },
+  "anchoring": {
+    "strategy": "none"
+  }
+}

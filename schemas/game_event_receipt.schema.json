@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReceiptOS Game Event Receipt (Additive Direction)",
+  "description": "Gaming vertical receipt model that reuses core + optional extension envelope without breaking existing extension contracts.",
+  "type": "object",
+  "required": ["receipt_id", "event_type", "game_event", "core_receipt_ref"],
+  "properties": {
+    "receipt_id": { "type": "string" },
+    "event_type": {
+      "type": "string",
+      "enum": ["loot_drop", "match_result", "npc_decision"]
+    },
+    "core_receipt_ref": {
+      "type": "string",
+      "description": "Reference to baseline ReceiptOS core receipt payload/hash."
+    },
+    "game_event": {
+      "type": "object",
+      "required": ["game_id", "session_id", "event_ts_utc"],
+      "properties": {
+        "game_id": { "type": "string" },
+        "session_id": { "type": "string" },
+        "match_id": { "type": "string" },
+        "event_ts_utc": { "type": "string" },
+        "actor_id": { "type": "string" },
+        "policy_version": { "type": "string" },
+        "payload": { "type": "object" }
+      }
+    },
+    "receipt_extension": {
+      "type": "object",
+      "description": "Optional additive extension envelope; must follow existing receipt_extension.schema.json semantics.",
+      "properties": {
+        "extension_version": { "type": "string" },
+        "mode": {
+          "type": "string",
+          "enum": ["signature_extension", "entropy_proof", "hybrid"]
+        },
+        "entropy": { "type": "object" },
+        "vrf": { "type": "object" },
+        "pq_signature": { "type": "object" },
+        "policy_path": { "type": "object" }
+      }
+    },
+    "chain": {
+      "type": "object",
+      "properties": {
+        "prev_hash": { "type": "string" },
+        "seq": { "type": "integer" }
+      }
+    },
+    "anchoring": {
+      "type": "object",
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": ["none", "periodic_root", "checkpoint"]
+        },
+        "anchor_ref": { "type": "string" }
+      }
+    }
+  }
+}
