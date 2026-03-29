@@ -1,27 +1,80 @@
 {
-  "core_receipt_ref": "receipt_sha256:demo",
-  "receipt_extension": {
-    "extension_version": "x1",
-    "mode": "hybrid",
-    "entropy": {
-      "entropy_score": 0.82,
-      "entropy_source": "runtime_entropy_v1",
-      "freshness_window_sec": 120
+  "examples": [
+    {
+      "name": "pq_signature_extension",
+      "core_receipt_ref": "receipt_sha256:demo-pq",
+      "receipt_extension": {
+        "extension_version": "x1",
+        "mode": "signature_extension",
+        "pq_signature": {
+          "alg": "PQ-ALG-PLACEHOLDER",
+          "key_id": "pq-k1",
+          "sig": "pq-signature-placeholder",
+          "pub_ref": "pq-pubref-placeholder"
+        },
+        "policy_path": {
+          "selected_path": "signature_extension",
+          "fallback_path": "baseline",
+          "reason": "pq-required-for-segment-A",
+          "required": false
+        }
+      }
     },
-    "vrf": {
-      "proof": "vrf-proof-placeholder",
-      "public_key": "vrf-pubkey-placeholder",
-      "domain": "receiptos-pq-lab"
+    {
+      "name": "entropy_proof_extension",
+      "core_receipt_ref": "receipt_sha256:demo-entropy",
+      "receipt_extension": {
+        "extension_version": "x1",
+        "mode": "entropy_proof",
+        "entropy": {
+          "entropy_score": 0.74,
+          "entropy_source": "runtime_entropy_v1",
+          "freshness_window_sec": 180,
+          "sample_ts_utc": "2026-03-29T00:00:00Z"
+        },
+        "vrf": {
+          "proof": "vrf-proof-placeholder",
+          "public_key": "vrf-pubkey-placeholder",
+          "domain": "receiptos-pq-lab"
+        },
+        "policy_path": {
+          "selected_path": "entropy_proof",
+          "fallback_path": "baseline",
+          "reason": "high-risk-window",
+          "required": false
+        }
+      }
     },
-    "pq_signature": {
-      "alg": "PQ-ALG-PLACEHOLDER",
-      "key_id": "pq-k1",
-      "sig": "pq-sig-placeholder"
-    },
-    "policy_path": {
-      "selected_path": "hybrid",
-      "fallback_path": "baseline",
-      "reason": "high_entropy_window"
+    {
+      "name": "hybrid_extension",
+      "core_receipt_ref": "receipt_sha256:demo-hybrid",
+      "receipt_extension": {
+        "extension_version": "x1",
+        "mode": "hybrid",
+        "pq_signature": {
+          "alg": "PQ-ALG-PLACEHOLDER",
+          "key_id": "pq-k2",
+          "sig": "pq-signature-placeholder-2",
+          "pub_ref": "pq-pubref-placeholder-2"
+        },
+        "entropy": {
+          "entropy_score": 0.82,
+          "entropy_source": "runtime_entropy_v1",
+          "freshness_window_sec": 120,
+          "sample_ts_utc": "2026-03-29T00:00:00Z"
+        },
+        "vrf": {
+          "proof": "vrf-proof-placeholder-2",
+          "public_key": "vrf-pubkey-placeholder-2",
+          "domain": "receiptos-pq-lab"
+        },
+        "policy_path": {
+          "selected_path": "hybrid",
+          "fallback_path": "baseline",
+          "reason": "high-entropy-window",
+          "required": false
+        }
+      }
     }
-  }
+  ]
 }

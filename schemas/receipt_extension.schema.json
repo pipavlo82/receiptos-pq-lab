@@ -1,45 +1,73 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "ReceiptOS Extension Envelope (PQ/Entropy/VRF)",
+  "title": "ReceiptOS Additive Extension Envelope",
+  "description": "Optional extension object for PQ/entropy/VRF paths. Core ReceiptOS receipt remains valid without this object.",
   "type": "object",
   "required": ["extension_version", "mode"],
   "properties": {
-    "extension_version": {"const": "x1"},
+    "extension_version": { "const": "x1" },
     "mode": {
       "type": "string",
-      "enum": ["baseline", "entropy_augmented", "hybrid"]
+      "enum": ["signature_extension", "entropy_proof", "hybrid"]
+    },
+    "pq_signature": {
+      "type": "object",
+      "required": ["alg", "key_id", "sig"],
+      "properties": {
+        "alg": { "type": "string" },
+        "key_id": { "type": "string" },
+        "sig": { "type": "string" },
+        "pub_ref": { "type": "string" }
+      }
     },
     "entropy": {
       "type": "object",
+      "required": ["entropy_score", "entropy_source", "freshness_window_sec"],
       "properties": {
-        "entropy_score": {"type": "number"},
-        "entropy_source": {"type": "string"},
-        "freshness_window_sec": {"type": "integer"}
+        "entropy_score": { "type": "number" },
+        "entropy_source": { "type": "string" },
+        "freshness_window_sec": { "type": "integer" },
+        "sample_ts_utc": { "type": "string" }
       }
     },
     "vrf": {
       "type": "object",
       "properties": {
-        "proof": {"type": "string"},
-        "public_key": {"type": "string"},
-        "domain": {"type": "string"}
-      }
-    },
-    "pq_signature": {
-      "type": "object",
-      "properties": {
-        "alg": {"type": "string"},
-        "key_id": {"type": "string"},
-        "sig": {"type": "string"}
+        "proof": { "type": "string" },
+        "public_key": { "type": "string" },
+        "domain": { "type": "string" }
       }
     },
     "policy_path": {
       "type": "object",
+      "required": ["selected_path"],
       "properties": {
-        "selected_path": {"type": "string"},
-        "fallback_path": {"type": "string"},
-        "reason": {"type": "string"}
+        "selected_path": { "type": "string" },
+        "fallback_path": { "type": "string" },
+        "reason": { "type": "string" },
+        "required": { "type": "boolean" }
+      }
+    },
+    "extension_reason": {
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "detail": { "type": "string" }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "mode": { "const": "signature_extension" } } },
+      "then": { "required": ["pq_signature"] }
+    },
+    {
+      "if": { "properties": { "mode": { "const": "entropy_proof" } } },
+      "then": { "required": ["entropy"] }
+    },
+    {
+      "if": { "properties": { "mode": { "const": "hybrid" } } },
+      "then": { "required": ["pq_signature", "entropy"] }
+    }
+  ]
 }
