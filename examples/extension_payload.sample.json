@@ -1,0 +1,27 @@
+{
+  "core_receipt_ref": "receipt_sha256:demo",
+  "receipt_extension": {
+    "extension_version": "x1",
+    "mode": "hybrid",
+    "entropy": {
+      "entropy_score": 0.82,
+      "entropy_source": "runtime_entropy_v1",
+      "freshness_window_sec": 120
+    },
+    "vrf": {
+      "proof": "vrf-proof-placeholder",
+      "public_key": "vrf-pubkey-placeholder",
+      "domain": "receiptos-pq-lab"
+    },
+    "pq_signature": {
+      "alg": "PQ-ALG-PLACEHOLDER",
+      "key_id": "pq-k1",
+      "sig": "pq-sig-placeholder"
+    },
+    "policy_path": {
+      "selected_path": "hybrid",
+      "fallback_path": "baseline",
+      "reason": "high_entropy_window"
+    }
+  }
+}
