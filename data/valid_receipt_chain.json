@@ -1,0 +1,75 @@
+[
+  {
+    "event_id": 1,
+    "prev_hash": "GENESIS",
+    "payload": {
+      "type": "match_start",
+      "match_id": "m-001",
+      "map": "arena"
+    },
+    "hash": "263b6ad0aafb7dd7534e5df41a7ec65c764b19b2cb180a5066d2ce64988ea2b3"
+  },
+  {
+    "event_id": 2,
+    "prev_hash": "263b6ad0aafb7dd7534e5df41a7ec65c764b19b2cb180a5066d2ce64988ea2b3",
+    "payload": {
+      "type": "spawn",
+      "player": "alice",
+      "x": 10,
+      "y": 5
+    },
+    "hash": "1f53ac7fbe55c97bf1d15f9ee77c7c1485bed8d6c4ecb0deaa823f84f6ba61b8"
+  },
+  {
+    "event_id": 3,
+    "prev_hash": "1f53ac7fbe55c97bf1d15f9ee77c7c1485bed8d6c4ecb0deaa823f84f6ba61b8",
+    "payload": {
+      "type": "spawn",
+      "player": "bob",
+      "x": 4,
+      "y": 8
+    },
+    "hash": "8aecc33866cd6ebe3f41ab771df4430402fbd6cb90dc991178767bde06580cda"
+  },
+  {
+    "event_id": 4,
+    "prev_hash": "8aecc33866cd6ebe3f41ab771df4430402fbd6cb90dc991178767bde06580cda",
+    "payload": {
+      "type": "damage",
+      "from": "alice",
+      "to": "bob",
+      "hp_delta": -40
+    },
+    "hash": "552af20dfecdeefcfdcbd5436a492daecb15a78a7aba3e4ec139cc834911d44a"
+  },
+  {
+    "event_id": 5,
+    "prev_hash": "552af20dfecdeefcfdcbd5436a492daecb15a78a7aba3e4ec139cc834911d44a",
+    "payload": {
+      "type": "damage",
+      "from": "bob",
+      "to": "alice",
+      "hp_delta": -20
+    },
+    "hash": "92a945c98ecd278c0f483d10834831dc07c8d13471ef6201d40773dbd64ee764"
+  },
+  {
+    "event_id": 6,
+    "prev_hash": "92a945c98ecd278c0f483d10834831dc07c8d13471ef6201d40773dbd64ee764",
+    "payload": {
+      "type": "final_blow",
+      "from": "alice",
+      "to": "bob"
+    },
+    "hash": "8c3ef8a30c9f226994b5e281431d287ce0c5cc7bb58b4d4016fe884124271fbb"
+  },
+  {
+    "event_id": 7,
+    "prev_hash": "8c3ef8a30c9f226994b5e281431d287ce0c5cc7bb58b4d4016fe884124271fbb",
+    "payload": {
+      "type": "match_end",
+      "winner": "alice"
+    },
+    "hash": "f6660898671a89a6aa1cba333a6207e375c962ad677c9de35d56e0e6e24e5e77"
+  }
+]
