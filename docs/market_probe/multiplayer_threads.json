@@ -1,0 +1,10 @@
+{
+  "self_login": "pipavlo82",
+  "threads": [
+    {"repo": "colyseus/colyseus", "number": 467},
+    {"repo": "heroiclabs/nakama", "number": 1142},
+    {"repo": "agones-dev/agones", "number": 1856},
+    {"repo": "googleforgames/open-match", "number": 1576},
+    {"repo": "unitystation/unitystation", "number": 1073}
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-04-04T00:25:04.195744+00:00",
+  "signal_count": 3,
+  "threads_total": 5,
+  "rows": [
+    {
+      "repo": "colyseus/colyseus",
+      "thread": "https://github.com/colyseus/colyseus/issues/467",
+      "title": "Enforce room ID uniqueness",
+      "has_new_signal": true,
+      "response_type": "INTERESTED",
+      "quote": "I'm doing this via a Redis lock personally, enforcing the acquisition of a lock in `onCreate` and removing it for `onDispose`, for example:\r\n\r\n```typescript\r\nasync onCreate(options) {\r\n  const myCustomId = options.my_custom_id?.toString();\r",
+      "next_action": "Great — I can share the tiny verifier + 3 fixtures (valid/tamper/replay) and how it fits into authoritative server logs without changing core gameplay logic.",
+      "comment_count": 10,
+      "last_comment_at": "2023-07-24T15:28:38Z"
+    },
+    {
+      "repo": "heroiclabs/nakama",
+      "thread": "https://github.com/heroiclabs/nakama/issues/1142",
+      "title": "Optimizing Performance in Message Broadcasting for sessionWS",
+      "has_new_signal": false,
+      "response_type": null,
+      "quote": null,
+      "next_action": "wait",
+      "comment_count": 1,
+      "last_comment_at": null
+    },
+    {
+      "repo": "agones-dev/agones",
+      "thread": "https://github.com/agones-dev/agones/issues/1856",
+      "title": "Contentions errors from allocator gRPC service under high load",
+      "has_new_signal": true,
+      "response_type": "INTERESTED",
+      "quote": "@pipavlo82 I'm sorry - but what has this to do with this issue?\n\nIf it's off topic, please keep issue conversations on topic.",
+      "next_action": "Great — I can share the tiny verifier + 3 fixtures (valid/tamper/replay) and how it fits into authoritative server logs without changing core gameplay logic.",
+      "comment_count": 11,
+      "last_comment_at": "2026-04-03T22:31:29Z"
+    },
+    {
+      "repo": "googleforgames/open-match",
+      "thread": "https://github.com/googleforgames/open-match/issues/1576",
+      "title": "Backfill mutex not unlocked when context is canceled in `CleanupBackfills`",
+      "has_new_signal": false,
+      "response_type": null,
+      "quote": null,
+      "next_action": "wait",
+      "comment_count": 1,
+      "last_comment_at": null
+    },
+    {
+      "repo": "unitystation/unitystation",
+      "thread": "https://github.com/unitystation/unitystation/issues/1073",
+      "title": "Research possibility of introducing Round Record/Replay functionality",
+      "has_new_signal": true,
+      "response_type": "DISMISSIVE",
+      "quote": "<img width=\"483\" height=\"201\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/c034d096-9a5c-4714-b2e3-55c14e86963f\" />\n\"I'm not spam\"\n\nKinda difficult to tell, because you appeared out of nowhere, and your comment sounds heavily",
+      "next_action": "Thanks for the direct feedback — understood. I’ll stop here in this thread.",
+      "comment_count": 5,
+      "last_comment_at": "2026-04-03T11:41:09Z"
+    }
+  ]
+}
