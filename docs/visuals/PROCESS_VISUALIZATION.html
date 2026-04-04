@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ReceiptOS Process Visualization</title>
+  <style>
+    body { font-family: Inter, Segoe UI, Arial, sans-serif; margin: 24px; color: #111; }
+    h1, h2 { margin: 0 0 12px; }
+    .muted { color: #555; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 14px; background: #fafafa; }
+    .flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .node { padding: 8px 12px; border-radius: 8px; border: 1px solid #cfcfcf; background: #fff; }
+    .arrow { color: #888; }
+    .ok { color: #0a7a31; font-weight: 600; }
+    .no { color: #b00020; font-weight: 600; }
+    code { background: #f2f2f2; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>ReceiptOS — Process Visualization</h1>
+  <div class="muted">One-page map for product + verification + outreach loop.</div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>1) End-to-End Flow</h2>
+      <div class="flow">
+        <div class="node">Dispute signal</div><div class="arrow">→</div>
+        <div class="node">Event log capture</div><div class="arrow">→</div>
+        <div class="node">Receipt chain build</div><div class="arrow">→</div>
+        <div class="node">Verifier</div><div class="arrow">→</div>
+        <div class="node">PASS / FAIL + reason</div><div class="arrow">→</div>
+        <div class="node">Support/Audit decision</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>2) Verification Checks</h2>
+      <ul>
+        <li><b>Continuity:</b> <code>prev_hash(i) == hash(i-1)</code></li>
+        <li><b>Tamper:</b> recomputed hash must match stored hash</li>
+        <li><b>Replay:</b> no duplicate / out-of-order <code>event_id</code></li>
+      </ul>
+      <p>
+        <span class="ok">PASS</span> = execution history consistent<br/>
+        <span class="no">FAIL</span> = tamper/replay/continuity break detected
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>3) Outreach Loop (Human-in-the-loop)</h2>
+      <div class="flow">
+        <div class="node">Post in high-fit thread</div><div class="arrow">→</div>
+        <div class="node">Monitor reply</div><div class="arrow">→</div>
+        <div class="node">Classify (CONFUSED / INTERESTED / DISMISSIVE / REDIRECT)</div><div class="arrow">→</div>
+        <div class="node">Human-approved reply</div><div class="arrow">→</div>
+        <div class="node">24–48h signal gate</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>4) Scope Boundary</h2>
+      <p><span class="ok">In scope:</span> multiplayer authoritative backends, event ordering, reconciliation, replay/tamper disputes.</p>
+      <p><span class="no">Out of scope:</span> casino/provably-fair RNG-only positioning.</p>
+    </div>
+
+    <div class="card">
+      <h2>5) Current Message Core</h2>
+      <p><b>We detect manipulation in execution history in systems where results can't be recomputed.</b></p>
+    </div>
+  </div>
+</body>
+</html>
