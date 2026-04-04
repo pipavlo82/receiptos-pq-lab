@@ -62,3 +62,14 @@ Avoid targets focused only on:
 
 ## 6) Success metric
 - >= 2 technical replies OR >= 1 concrete request to review demo details
+
+## Operator Run Order
+1. **Demo integrity pass**
+   - Ensure demo outputs still reproduce:
+   - valid -> PASS, tamper -> FAIL, replay -> FAIL.
+2. **Monitor responses**
+   - Run: `python3 tools/outreach_monitor_v1.py --config docs/market_probe/multiplayer_threads.json`
+   - Read `outreach_monitor_report.json`.
+3. **Human reply loop**
+   - Reply only after manual approval.
+   - One concise technical response per signal thread.
