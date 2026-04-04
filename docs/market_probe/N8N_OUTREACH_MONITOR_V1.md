@@ -27,9 +27,14 @@ Automate detection of new replies in multiplayer outreach threads and prepare re
 6. **Store snapshot**
    - Save alerts to `docs/market_probe/alerts/alert_<timestamp>.json`
 
-## Optional v1.1 (still safe)
-- Add dedupe key: `repo + thread + last_comment_at`
-- Skip alerts already sent.
+## Dedup (required)
+- Add dedupe key per signal: `repo + "|" + thread + "|" + last_comment_at`
+- Persist sent keys in a lightweight store (Data Store / SQLite / JSON file).
+- Before notify step:
+  1. check if dedupe key exists,
+  2. if exists -> skip,
+  3. if not exists -> send alert and store key.
+- This prevents repeated alerts for the same comment.
 
 ## Data Contract (from outreach_monitor_v1.py)
 - `signal_count`
