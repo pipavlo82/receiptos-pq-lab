@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="220" viewBox="0 0 980 220">
+  <style>
+    .box { fill:#0f172a; stroke:#334155; stroke-width:2; rx:12; ry:12; }
+    .txt { fill:#e2e8f0; font: 16px sans-serif; }
+    .sub { fill:#94a3b8; font: 13px sans-serif; }
+    .arr { stroke:#22c55e; stroke-width:3; marker-end:url(#arrow); }
+    .title { fill:#111827; font: 700 20px sans-serif; }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <polygon points="0,0 10,4 0,8" fill="#22c55e" />
+    </marker>
+  </defs>
+  <text x="20" y="30" class="title">Match Integrity Flow</text>
+
+  <rect class="box" x="20" y="70" width="160" height="90"/>
+  <text class="txt" x="48" y="110">Match Events</text>
+  <text class="sub" x="42" y="132">moves + final result</text>
+
+  <rect class="box" x="220" y="70" width="160" height="90"/>
+  <text class="txt" x="268" y="110">Receipts</text>
+  <text class="sub" x="235" y="132">hash + signature</text>
+
+  <rect class="box" x="420" y="70" width="160" height="90"/>
+  <text class="txt" x="470" y="110">Chain</text>
+  <text class="sub" x="437" y="132">prev_hash continuity</text>
+
+  <rect class="box" x="620" y="70" width="160" height="90"/>
+  <text class="txt" x="666" y="110">Verify</text>
+  <text class="sub" x="642" y="132">verify + verify-chain</text>
+
+  <rect class="box" x="820" y="70" width="140" height="90"/>
+  <text class="txt" x="845" y="110">Reason Codes</text>
+  <text class="sub" x="842" y="132">OK / TAMPER / ...</text>
+
+  <line class="arr" x1="180" y1="115" x2="220" y2="115"/>
+  <line class="arr" x1="380" y1="115" x2="420" y2="115"/>
+  <line class="arr" x1="580" y1="115" x2="620" y2="115"/>
+  <line class="arr" x1="780" y1="115" x2="820" y2="115"/>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="260" viewBox="0 0 980 260">
+  <style>
+    .title { fill:#111827; font:700 20px sans-serif; }
+    .card { fill:#111827; stroke:#374151; stroke-width:2; rx:12; ry:12; }
+    .h { fill:#f9fafb; font:700 16px sans-serif; }
+    .p { fill:#9ca3af; font:13px sans-serif; }
+    .ok { fill:#22c55e; font:700 14px sans-serif; }
+    .bad { fill:#ef4444; font:700 14px sans-serif; }
+  </style>
+  <text x="20" y="30" class="title">Dispute Scenarios</text>
+
+  <rect class="card" x="20" y="60" width="220" height="150"/>
+  <text class="h" x="42" y="95">Valid Baseline</text>
+  <text class="p" x="42" y="120">No modifications</text>
+  <text class="ok" x="42" y="155">Expected: OK</text>
+
+  <rect class="card" x="260" y="60" width="220" height="150"/>
+  <text class="h" x="282" y="95">Tamper Event</text>
+  <text class="p" x="282" y="120">Payload changed post-sign</text>
+  <text class="bad" x="282" y="155">Expected: TAMPER</text>
+
+  <rect class="card" x="500" y="60" width="220" height="150"/>
+  <text class="h" x="522" y="95">Replay Receipt</text>
+  <text class="p" x="522" y="120">Duplicate event/receipt id</text>
+  <text class="bad" x="522" y="155">Expected: REPLAY</text>
+
+  <rect class="card" x="740" y="60" width="220" height="150"/>
+  <text class="h" x="762" y="95">Altered Result</text>
+  <text class="p" x="762" y="120">Winner mutated after sign</text>
+  <text class="bad" x="762" y="155">Expected: TAMPER</text>
+</svg>

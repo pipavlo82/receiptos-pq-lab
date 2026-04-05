@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="220" viewBox="0 0 980 220">
+  <style>
+    .title { fill:#111827; font:700 20px sans-serif; }
+    .box { fill:#0b1220; stroke:#334155; stroke-width:2; rx:12; ry:12; }
+    .txt { fill:#e5e7eb; font:16px sans-serif; }
+    .arr { stroke:#60a5fa; stroke-width:3; marker-end:url(#a); }
+  </style>
+  <defs><marker id="a" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto"><polygon points="0,0 10,4 0,8" fill="#60a5fa"/></marker></defs>
+  <text x="20" y="30" class="title">Agent Tool Execution Flow (Proof Layer)</text>
+  <rect class="box" x="20" y="70" width="180" height="90"/><text class="txt" x="85" y="120">Agent</text>
+  <rect class="box" x="240" y="70" width="180" height="90"/><text class="txt" x="310" y="120">Tool</text>
+  <rect class="box" x="460" y="70" width="200" height="90"/><text class="txt" x="515" y="120">Receipt</text>
+  <rect class="box" x="700" y="70" width="240" height="90"/><text class="txt" x="780" y="120">Verifier</text>
+  <line class="arr" x1="200" y1="115" x2="240" y2="115"/>
+  <line class="arr" x1="420" y1="115" x2="460" y2="115"/>
+  <line class="arr" x1="660" y1="115" x2="700" y2="115"/>
+</svg>

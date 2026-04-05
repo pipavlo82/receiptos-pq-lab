@@ -1,0 +1,78 @@
+{
+  "ok": true,
+  "with_mirofish": false,
+  "results": [
+    {
+      "case_id": "valid_baseline",
+      "kind": "valid",
+      "description": "Untouched match + untouched receipts",
+      "expected_reason": "OK",
+      "actual_reason": "OK",
+      "ok": true,
+      "at_seq": null,
+      "details": "all checks passed"
+    },
+    {
+      "case_id": "tamper_event",
+      "kind": "tamper",
+      "description": "Event payload modified after receipt signing",
+      "expected_reason": "TAMPER",
+      "actual_reason": "TAMPER",
+      "ok": true,
+      "at_seq": 4,
+      "details": "event_hash mismatch (event altered)"
+    },
+    {
+      "case_id": "replay_receipt",
+      "kind": "replay",
+      "description": "Duplicated receipt/event id in chain",
+      "expected_reason": "REPLAY",
+      "actual_reason": "REPLAY",
+      "ok": true,
+      "at_seq": 6,
+      "details": "duplicate event_id=ev_003"
+    },
+    {
+      "case_id": "altered_result",
+      "kind": "tamper",
+      "description": "Final winner altered after signing",
+      "expected_reason": "TAMPER",
+      "actual_reason": "TAMPER",
+      "ok": true,
+      "at_seq": 9,
+      "details": "event_hash mismatch (event altered)"
+    },
+    {
+      "case_id": "bad_signature",
+      "kind": "bad_signature",
+      "description": "Receipt signature corrupted",
+      "expected_reason": "BAD_SIGNATURE",
+      "actual_reason": "BAD_SIGNATURE",
+      "ok": true,
+      "at_seq": 2,
+      "details": "signature mismatch"
+    },
+    {
+      "case_id": "chain_mismatch",
+      "kind": "chain_mismatch",
+      "description": "prev_hash continuity broken",
+      "expected_reason": "CHAIN_MISMATCH",
+      "actual_reason": "CHAIN_MISMATCH",
+      "ok": true,
+      "at_seq": 3,
+      "details": "expected prev_hash=3d3cc1bfe50de2b85dbec964fdd4c948fd00763d28e7d74581644dc2e9b008dd, got=BROKEN_PREV_HASH"
+    }
+  ],
+  "summary": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0,
+    "by_reason": {
+      "OK": 1,
+      "TAMPER": 2,
+      "REPLAY": 1,
+      "BAD_SIGNATURE": 1,
+      "CHAIN_MISMATCH": 1
+    }
+  }
+}
