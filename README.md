@@ -2,8 +2,36 @@
 
 `receiptos-pq-lab` is a runnable demo bundle for proving match integrity.
 It shows how signed receipts + chain verification catch tamper, replay, and altered outcomes with deterministic reason codes.
+# Crypto-Agility Thesis
 
----
+Quantum risk is not only a future key-recovery problem. It is also a migration problem.
+
+A system that depends on one signature scheme can become fragile even if that scheme is considered strong today. Post-quantum signatures reduce one class of risk, but they do not eliminate implementation risk, cryptanalytic risk, or future algorithmic surprises.
+
+ReceiptOS PQ Lab treats signatures as versioned verification lanes, not permanent assumptions.
+
+## Principles
+
+1. No single signature scheme should be treated as eternal.
+2. Receipts should preserve enough metadata to verify what was signed, by whom, under which algorithm, and under which lane version.
+3. Systems should support hybrid lanes during migration periods.
+4. Verification should be policy-driven, so old lanes can be deprecated and new lanes can be introduced.
+5. Agent/tool execution needs signed receipts because logs alone are not proofs.
+
+## Example lanes
+
+- classic_ed25519_v1
+- hybrid_ed25519_mldsa_v1
+- pq_mldsa_v1
+- pq_hash_based_v1
+- threshold_2_of_3_v1
+
+## ReceiptOS position
+
+ReceiptOS does not claim that any single post-quantum signature is permanently safe.
+
+ReceiptOS provides a verifiable execution layer where cryptographic assumptions can be upgraded, combined, and audited over time.
+
 
 ## Quick Start
 
