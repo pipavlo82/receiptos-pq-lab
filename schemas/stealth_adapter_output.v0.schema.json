@@ -35,7 +35,30 @@
         { "type": "null" }
       ]
     },
-    "details": { "type": "object" },
+    "details": {
+      "type": "object",
+      "required": ["source", "transcript"],
+      "properties": {
+        "source": { "type": "string" },
+        "transcript": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["seq", "type", "prev_hash", "event_hash"],
+            "properties": {
+              "seq": { "type": "integer", "minimum": 1 },
+              "type": { "type": "string", "enum": ["command", "change"] },
+              "command": { "type": "object" },
+              "change": { "type": "object" },
+              "prev_hash": { "type": "string" },
+              "event_hash": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": true
+    },
     "receipt": {
       "anyOf": [
         {

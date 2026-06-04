@@ -37,7 +37,15 @@ Stable verifier-style output fields:
 - `receiptHash`
 - `eventRoot`
 
-The adapter emits a normalized receipt bundle in `receipt` and a deterministic command transcript in `details.transcript`.
+The adapter emits a normalized receipt bundle in `receipt` and a deterministic sequence-aware event chain in `details.transcript`.
+
+Transcript/event chain rules:
+- command records preserve original array order
+- each event gets explicit `seq`
+- each event gets `prev_hash` and `event_hash`
+- genesis uses `GENESIS`
+- a deterministic `change` event is appended after all command events
+- `eventRoot` is the final event hash in the chain
 
 Schema freeze file:
 - `schemas/stealth_adapter_output.v0.schema.json`
@@ -48,6 +56,15 @@ Schema freeze file:
 - `TAMPER`
 - `CHAIN_MISMATCH`
 - `ADAPTER_INTERNAL_ERROR`
+
+## Deterministic chain semantics
+
+For the current v0 adapter:
+- each Stealth command becomes one `type: "command"` event
+- the Stealth change metadata becomes one trailing `type: "change"` event
+- `seq` starts at `1` and increments without gaps
+- `prev_hash` must equal the previous event's `event_hash`
+- `eventRoot` is derived from the final event hash
 
 ## Demo command
 

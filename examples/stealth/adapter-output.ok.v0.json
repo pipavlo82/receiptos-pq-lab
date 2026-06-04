@@ -15,11 +15,25 @@
     "transcript": [
       {
         "seq": 1,
-        "command": ".venv/bin/python src/realized_vol.py",
-        "exit_code": 0,
-        "stdout_summary": "[OK] realized sigma_5m=0.00165546",
+        "type": "command",
+        "command": {
+          "command": ".venv/bin/python src/realized_vol.py",
+          "exit_code": 0,
+          "stdout_summary": "[OK] realized sigma_5m=0.00165546"
+        },
         "prev_hash": "GENESIS",
-        "event_hash": "6f0a0625d7a500e5861a851dc3f38f67a041cdc0418b0d5ef4cb6d3accab3412"
+        "event_hash": "facbcba5cd62f9eb75ab49d2dd183c881f7f42468f9ce37a6bb7971219b81f3f"
+      },
+      {
+        "seq": 2,
+        "type": "change",
+        "change": {
+          "files_changed": [],
+          "diff_sha256": null,
+          "diff_count": 0
+        },
+        "prev_hash": "facbcba5cd62f9eb75ab49d2dd183c881f7f42468f9ce37a6bb7971219b81f3f",
+        "event_hash": "58bc4bfa81475e983bfcc67d03b1879a59bcb7837815d43055ff45f057f899f4"
       }
     ]
   },
@@ -47,9 +61,9 @@
       "diff_count": 0,
       "generated_by": "stealth.handoff.evidence.builder.v0"
     },
-    "eventRoot": "6f0a0625d7a500e5861a851dc3f38f67a041cdc0418b0d5ef4cb6d3accab3412",
-    "receiptHash": "79ff338c6ab29ce3f0167a81eae66b9174d013bc9c1254d2dc33b2291628fbd2"
+    "eventRoot": "58bc4bfa81475e983bfcc67d03b1879a59bcb7837815d43055ff45f057f899f4",
+    "receiptHash": "b5ced9ef2dd748ea2171e1e88ed063bf541d8c0a84e1c81a29fafb0f5f976811"
   },
-  "receiptHash": "79ff338c6ab29ce3f0167a81eae66b9174d013bc9c1254d2dc33b2291628fbd2",
-  "eventRoot": "6f0a0625d7a500e5861a851dc3f38f67a041cdc0418b0d5ef4cb6d3accab3412"
+  "receiptHash": "b5ced9ef2dd748ea2171e1e88ed063bf541d8c0a84e1c81a29fafb0f5f976811",
+  "eventRoot": "58bc4bfa81475e983bfcc67d03b1879a59bcb7837815d43055ff45f057f899f4"
 }
