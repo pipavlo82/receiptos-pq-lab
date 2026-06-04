@@ -15,7 +15,19 @@
   ],
   "properties": {
     "valid": { "type": "boolean" },
-    "reason_code": { "type": "string" },
+    "reason_code": {
+      "type": "string",
+      "enum": [
+        "OK",
+        "MISSING_REQUIRED_FIELD",
+        "BAD_SCHEMA",
+        "EMPTY_TRANSCRIPT",
+        "DIFF_MISMATCH",
+        "TAMPER",
+        "CHAIN_MISMATCH",
+        "ADAPTER_INTERNAL_ERROR"
+      ]
+    },
     "checks": {
       "type": "object",
       "required": ["schema", "receipt_hash", "event_root", "scope", "commands", "diff_commitment"],

@@ -53,9 +53,22 @@ Schema freeze file:
 ## Initial reason codes
 
 - `OK`
+- `MISSING_REQUIRED_FIELD`
+- `BAD_SCHEMA`
+- `EMPTY_TRANSCRIPT`
+- `DIFF_MISMATCH`
 - `TAMPER`
 - `CHAIN_MISMATCH`
 - `ADAPTER_INTERNAL_ERROR`
+
+### Mapping rules
+- missing top-level required fields -> `MISSING_REQUIRED_FIELD`
+- invalid source/schema shape -> `BAD_SCHEMA`
+- empty commands plus no change event material -> `EMPTY_TRANSCRIPT`
+- malformed or missing diff commitment for changed files -> `DIFF_MISMATCH`
+- malformed command payload / content corruption -> `TAMPER`
+- explicit sequence mismatch / chain continuity violation -> `CHAIN_MISMATCH`
+- unexpected adapter exception -> `ADAPTER_INTERNAL_ERROR`
 
 ## Deterministic chain semantics
 

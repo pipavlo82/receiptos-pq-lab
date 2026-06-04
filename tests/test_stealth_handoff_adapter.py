@@ -64,16 +64,54 @@ def test_stealth_adapter_output_shape_is_stable():
     assert res == expected
 
 
-def test_stealth_adapter_missing_field_maps_to_tamper():
+def test_stealth_adapter_missing_field_maps_to_missing_required_field():
     evidence = load_sample()
     del evidence['session_id']
     res = adapt_stealth_handoff_evidence(evidence)
     assert res['valid'] is False
-    assert res['reason_code'] == 'TAMPER'
+    assert res['reason_code'] == 'MISSING_REQUIRED_FIELD'
     assert res['fail_path'] == 'session_id'
     assert res['receipt'] is None
     assert res['receiptHash'] is None
     assert res['eventRoot'] is None
+
+
+def test_stealth_adapter_bad_schema_maps_cleanly():
+    evidence = load_sample()
+    evidence['schema'] = 'wrong.schema.v0'
+    res = adapt_stealth_handoff_evidence(evidence)
+    assert res['valid'] is False
+    assert res['reason_code'] == 'BAD_SCHEMA'
+    assert res['fail_path'] == 'schema'
+
+
+def test_stealth_adapter_empty_transcript_maps_cleanly():
+    evidence = load_sample()
+    evidence['commands'] = []
+    evidence['changes'] = {'files_changed': [], 'diff_sha256': None}
+    evidence['metadata']['diff_count'] = 0
+    res = adapt_stealth_handoff_evidence(evidence)
+    assert res['valid'] is False
+    assert res['reason_code'] == 'EMPTY_TRANSCRIPT'
+    assert res['fail_path'] == 'commands'
+
+
+def test_stealth_adapter_diff_mismatch_maps_cleanly():
+    evidence = load_sample()
+    evidence['changes'] = {'files_changed': ['README.md'], 'diff_sha256': None}
+    res = adapt_stealth_handoff_evidence(evidence)
+    assert res['valid'] is False
+    assert res['reason_code'] == 'DIFF_MISMATCH'
+    assert res['fail_path'] == 'changes.diff_sha256'
+
+
+def test_stealth_adapter_tamper_maps_cleanly():
+    evidence = load_sample()
+    evidence['commands'][0]['command'] = ''
+    res = adapt_stealth_handoff_evidence(evidence)
+    assert res['valid'] is False
+    assert res['reason_code'] == 'TAMPER'
+    assert res['fail_path'] == 'commands[0].command'
 
 
 def test_stealth_adapter_bad_seq_maps_to_chain_mismatch():
@@ -83,3 +121,17 @@ def test_stealth_adapter_bad_seq_maps_to_chain_mismatch():
     assert res['valid'] is False
     assert res['reason_code'] == 'CHAIN_MISMATCH'
     assert res['fail_path'] == 'commands'
+
+
+def test_stealth_adapter_internal_error_maps_cleanly(monkeypatch):
+    import src.stealth_handoff_adapter as adapter
+
+    def boom(_obj):
+        raise RuntimeError('boom')
+
+    monkeypatch.setattr(adapter, 'sha256_hex_obj', boom)
+    evidence = load_sample()
+    res = adapter.adapt_stealth_handoff_evidence(evidence)
+    assert res['valid'] is False
+    assert res['reason_code'] == 'ADAPTER_INTERNAL_ERROR'
+    assert res['fail_path'] is None
