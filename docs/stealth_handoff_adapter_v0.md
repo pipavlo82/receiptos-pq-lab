@@ -36,6 +36,7 @@ Stable verifier-style output fields:
 - `receipt`
 - `receiptHash`
 - `eventRoot`
+- `trust`
 
 The adapter emits a normalized receipt bundle in `receipt` and a deterministic sequence-aware event chain in `details.transcript`.
 
@@ -116,6 +117,48 @@ Key shape:
   "eventRoot": "sha256:..."
 }
 ```
+
+## Optional trust block
+
+The adapter can emit an optional trust-aware block using a demo signing mechanism only.
+
+Current v0 shape:
+
+```json
+{
+  "signer_id": "stealth-demo-agent",
+  "key_id": "stealth-demo-key-001",
+  "algorithm": "demo-hmac",
+  "signed_fields": ["receiptHash", "eventRoot"],
+  "signature": "...",
+  "trust_mode": "signature_extension"
+}
+```
+
+The canonical signed payload is:
+
+```json
+{
+  "receiptHash": "...",
+  "eventRoot": "..."
+}
+```
+
+Additional checks:
+- `signature_present`
+- `key_id_present`
+- `signed_fields_match`
+- `receipt_hash_matches`
+- `event_root_matches`
+- `signature_valid`
+- `signer_allowed`
+- `trust_block_valid`
+
+Additional reason codes:
+- `MISSING_SIGNATURE`
+- `BAD_SIGNATURE`
+- `TRUST_BLOCK_INVALID`
+- `UNTRUSTED_SIGNER`
 
 ## Notes
 
