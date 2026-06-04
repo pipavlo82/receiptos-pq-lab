@@ -50,29 +50,48 @@ def _fail(reason_code: str, fail_path: str | None, details: Dict[str, Any]) -> D
     }
 
 
-def _validate_required(evidence: Dict[str, Any]) -> tuple[bool, str | None, str | None]:
+def _validate_required(evidence: Dict[str, Any]) -> tuple[bool, str | None, str | None, str | None]:
+    if not isinstance(evidence, dict):
+        return False, "BAD_SCHEMA", None, "evidence must be an object"
     for field in REQUIRED_TOP_LEVEL:
         if field not in evidence:
-            return False, field, f"missing top-level field: {field}"
+            return False, "MISSING_REQUIRED_FIELD", field, f"missing top-level field: {field}"
     if evidence.get("schema") != "stealth.session.evidence.v0":
-        return False, "schema", "unexpected schema"
+        return False, "BAD_SCHEMA", "schema", "unexpected schema"
     if not isinstance(evidence.get("commands"), list):
-        return False, "commands", "commands must be a list"
+        return False, "BAD_SCHEMA", "commands", "commands must be a list"
     if not isinstance(evidence.get("changes"), dict):
-        return False, "changes", "changes must be an object"
+        return False, "BAD_SCHEMA", "changes", "changes must be an object"
     if not isinstance(evidence.get("metadata"), dict):
-        return False, "metadata", "metadata must be an object"
+        return False, "BAD_SCHEMA", "metadata", "metadata must be an object"
     if not isinstance(evidence.get("agent"), dict):
-        return False, "agent", "agent must be an object"
+        return False, "BAD_SCHEMA", "agent", "agent must be an object"
     if not isinstance(evidence.get("task"), dict):
-        return False, "task", "task must be an object"
-    return True, None, None
+        return False, "BAD_SCHEMA", "task", "task must be an object"
+    if not isinstance(evidence.get("scope"), dict):
+        return False, "BAD_SCHEMA", "scope", "scope must be an object"
+    changes = evidence.get("changes", {})
+    files_changed = changes.get("files_changed", [])
+    if not isinstance(files_changed, list):
+        return False, "BAD_SCHEMA", "changes.files_changed", "files_changed must be a list"
+    diff_sha256 = changes.get("diff_sha256")
+    if diff_sha256 is not None and not isinstance(diff_sha256, str):
+        return False, "DIFF_MISMATCH", "changes.diff_sha256", "diff_sha256 must be null or string"
+    if isinstance(diff_sha256, str) and not diff_sha256.strip():
+        return False, "DIFF_MISMATCH", "changes.diff_sha256", "diff_sha256 cannot be empty"
+    if files_changed and diff_sha256 is None:
+        return False, "DIFF_MISMATCH", "changes.diff_sha256", "diff_sha256 required when files_changed is non-empty"
+    if len(evidence.get("commands", [])) == 0 and not files_changed and diff_sha256 is None:
+        return False, "EMPTY_TRANSCRIPT", "commands", "no command events and no change event"
+    return True, None, None, None
 
 
 def _build_transcript(commands: List[Dict[str, Any]], changes: Dict[str, Any], metadata: Dict[str, Any]) -> tuple[List[Dict[str, Any]], str]:
     transcript: List[Dict[str, Any]] = []
     prev_hash = "GENESIS"
     for idx, command in enumerate(commands, start=1):
+        if not isinstance(command, dict):
+            raise TypeError(f"commands[{idx-1}] must be an object")
         if "seq" in command and command["seq"] != idx:
             raise ValueError(f"command seq mismatch at index {idx}")
         cmd = command.get("command")
@@ -111,9 +130,9 @@ def _build_transcript(commands: List[Dict[str, Any]], changes: Dict[str, Any], m
 
 def adapt_stealth_handoff_evidence(evidence: Dict[str, Any]) -> Dict[str, Any]:
     try:
-        ok, field, message = _validate_required(evidence)
+        ok, reason_code, field, message = _validate_required(evidence)
         if not ok:
-            return _fail("TAMPER", field, {"error": message})
+            return _fail(reason_code or "ADAPTER_INTERNAL_ERROR", field, {"error": message})
 
         transcript, event_root = _build_transcript(
             evidence["commands"],
@@ -165,6 +184,8 @@ def adapt_stealth_handoff_evidence(evidence: Dict[str, Any]) -> Dict[str, Any]:
         return _fail("TAMPER", str(exc).strip("'"), {"error": "missing required command field"})
     except ValueError as exc:
         return _fail("CHAIN_MISMATCH", "commands", {"error": str(exc)})
+    except TypeError as exc:
+        return _fail("BAD_SCHEMA", "commands", {"error": str(exc)})
     except Exception as exc:
         return _fail(
             "ADAPTER_INTERNAL_ERROR",
