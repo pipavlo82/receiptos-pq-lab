@@ -1,0 +1,55 @@
+{
+  "valid": true,
+  "reason_code": "OK",
+  "checks": {
+    "schema": true,
+    "receipt_hash": true,
+    "event_root": true,
+    "scope": true,
+    "commands": true,
+    "diff_commitment": true
+  },
+  "fail_path": null,
+  "details": {
+    "source": "STEALTH_HANDOFF",
+    "transcript": [
+      {
+        "seq": 1,
+        "command": ".venv/bin/python src/realized_vol.py",
+        "exit_code": 0,
+        "stdout_summary": "[OK] realized sigma_5m=0.00165546",
+        "prev_hash": "GENESIS",
+        "event_hash": "6f0a0625d7a500e5861a851dc3f38f67a041cdc0418b0d5ef4cb6d3accab3412"
+      }
+    ]
+  },
+  "receipt": {
+    "source": "STEALTH_HANDOFF",
+    "transactionId": "ses_demo_endpoint_v0",
+    "directory": "/repo/demo",
+    "task": {
+      "title": "Demo endpoint handoff evidence",
+      "prompt": "Run a safe local command and report the result."
+    },
+    "agent": {
+      "id": "stealth-demo-agent",
+      "runtime": "Stealth"
+    },
+    "scope": {
+      "permission": []
+    },
+    "changed": {
+      "files_changed": [],
+      "diff_sha256": null
+    },
+    "metadata": {
+      "message_count": 2,
+      "diff_count": 0,
+      "generated_by": "stealth.handoff.evidence.builder.v0"
+    },
+    "eventRoot": "6f0a0625d7a500e5861a851dc3f38f67a041cdc0418b0d5ef4cb6d3accab3412",
+    "receiptHash": "79ff338c6ab29ce3f0167a81eae66b9174d013bc9c1254d2dc33b2291628fbd2"
+  },
+  "receiptHash": "79ff338c6ab29ce3f0167a81eae66b9174d013bc9c1254d2dc33b2291628fbd2",
+  "eventRoot": "6f0a0625d7a500e5861a851dc3f38f67a041cdc0418b0d5ef4cb6d3accab3412"
+}
