@@ -27,14 +27,20 @@ Expected source shape:
 
 ## Output
 
-Verifier-style output fields:
+Stable verifier-style output fields:
 - `valid`
 - `reason_code`
 - `checks`
 - `fail_path`
 - `details`
+- `receipt`
+- `receiptHash`
+- `eventRoot`
 
-The adapter also emits a normalized receipt bundle in `details.receipt` and a deterministic command transcript in `details.transcript`.
+The adapter emits a normalized receipt bundle in `receipt` and a deterministic command transcript in `details.transcript`.
+
+Schema freeze file:
+- `schemas/stealth_adapter_output.v0.schema.json`
 
 ## Initial reason codes
 
@@ -53,6 +59,11 @@ python3 demo/stealth_handoff_adapter_demo.py \
 
 ## Sample verifier output
 
+See frozen OK fixture:
+- `examples/stealth/adapter-output.ok.v0.json`
+
+Key shape:
+
 ```json
 {
   "valid": true,
@@ -65,7 +76,14 @@ python3 demo/stealth_handoff_adapter_demo.py \
     "commands": true,
     "diff_commitment": true
   },
-  "fail_path": null
+  "fail_path": null,
+  "details": {
+    "source": "STEALTH_HANDOFF",
+    "transcript": []
+  },
+  "receipt": {},
+  "receiptHash": "sha256:...",
+  "eventRoot": "sha256:..."
 }
 ```
 

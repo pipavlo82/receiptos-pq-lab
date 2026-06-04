@@ -44,6 +44,9 @@ def _fail(reason_code: str, fail_path: str | None, details: Dict[str, Any]) -> D
         },
         "fail_path": fail_path,
         "details": details,
+        "receipt": None,
+        "receiptHash": None,
+        "eventRoot": None,
     }
 
 
@@ -118,6 +121,11 @@ def adapt_stealth_handoff_evidence(evidence: Dict[str, Any]) -> Dict[str, Any]:
             "diff_commitment": "diff_sha256" in evidence.get("changes", {}),
         }
 
+        full_receipt = {
+            **receipt,
+            "receiptHash": receipt_hash,
+        }
+
         return {
             "valid": True,
             "reason_code": "OK",
@@ -125,12 +133,11 @@ def adapt_stealth_handoff_evidence(evidence: Dict[str, Any]) -> Dict[str, Any]:
             "fail_path": None,
             "details": {
                 "source": "STEALTH_HANDOFF",
-                "receipt": {
-                    **receipt,
-                    "receiptHash": receipt_hash,
-                },
                 "transcript": transcript,
             },
+            "receipt": full_receipt,
+            "receiptHash": receipt_hash,
+            "eventRoot": event_root,
         }
     except KeyError as exc:
         return _fail("TAMPER", str(exc).strip("'"), {"error": "missing required command field"})

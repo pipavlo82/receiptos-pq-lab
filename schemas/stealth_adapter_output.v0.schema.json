@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://receiptos-pq-lab.local/schemas/stealth_adapter_output.v0.schema.json",
+  "title": "Stealth Adapter Output v0",
+  "type": "object",
+  "required": [
+    "valid",
+    "reason_code",
+    "checks",
+    "fail_path",
+    "details",
+    "receipt",
+    "receiptHash",
+    "eventRoot"
+  ],
+  "properties": {
+    "valid": { "type": "boolean" },
+    "reason_code": { "type": "string" },
+    "checks": {
+      "type": "object",
+      "required": ["schema", "receipt_hash", "event_root", "scope", "commands", "diff_commitment"],
+      "properties": {
+        "schema": { "type": "boolean" },
+        "receipt_hash": { "type": "boolean" },
+        "event_root": { "type": "boolean" },
+        "scope": { "type": "boolean" },
+        "commands": { "type": "boolean" },
+        "diff_commitment": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "fail_path": {
+      "anyOf": [
+        { "type": "string" },
+        { "type": "null" }
+      ]
+    },
+    "details": { "type": "object" },
+    "receipt": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "source",
+            "transactionId",
+            "directory",
+            "task",
+            "agent",
+            "scope",
+            "changed",
+            "metadata",
+            "eventRoot",
+            "receiptHash"
+          ]
+        },
+        { "type": "null" }
+      ]
+    },
+    "receiptHash": {
+      "anyOf": [
+        { "type": "string" },
+        { "type": "null" }
+      ]
+    },
+    "eventRoot": {
+      "anyOf": [
+        { "type": "string" },
+        { "type": "null" }
+      ]
+    }
+  },
+  "additionalProperties": false
+}
