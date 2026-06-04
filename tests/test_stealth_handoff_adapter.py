@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from src.stealth_handoff_adapter import adapt_stealth_handoff_evidence
+from src.stealth_handoff_adapter import adapt_stealth_handoff_evidence, verify_trust_block
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +23,7 @@ def test_stealth_adapter_ok():
     assert res['fail_path'] is None
     assert res['receiptHash'] == res['receipt']['receiptHash']
     assert res['eventRoot'] == res['receipt']['eventRoot']
+    assert res['trust'] == res['receipt']['trust']
     assert isinstance(res['details']['transcript'], list)
 
 
@@ -60,6 +61,7 @@ def test_stealth_adapter_output_shape_is_stable():
         'receipt',
         'receiptHash',
         'eventRoot',
+        'trust',
     }
     assert res == expected
 
@@ -74,6 +76,7 @@ def test_stealth_adapter_missing_field_maps_to_missing_required_field():
     assert res['receipt'] is None
     assert res['receiptHash'] is None
     assert res['eventRoot'] is None
+    assert res['trust'] is None
 
 
 def test_stealth_adapter_bad_schema_maps_cleanly():
@@ -121,6 +124,57 @@ def test_stealth_adapter_bad_seq_maps_to_chain_mismatch():
     assert res['valid'] is False
     assert res['reason_code'] == 'CHAIN_MISMATCH'
     assert res['fail_path'] == 'commands'
+
+
+def test_trust_block_missing_signature_maps_cleanly():
+    evidence = load_sample()
+    res = adapt_stealth_handoff_evidence(evidence)
+    trust = dict(res['trust'])
+    del trust['signature']
+    ok, reason, fail_path, checks = verify_trust_block(res['receiptHash'], res['eventRoot'], trust)
+    assert ok is False
+    assert reason == 'TRUST_BLOCK_INVALID'
+    assert fail_path == 'signature'
+
+
+def test_trust_block_bad_signature_maps_cleanly():
+    evidence = load_sample()
+    res = adapt_stealth_handoff_evidence(evidence)
+    trust = dict(res['trust'])
+    trust['signature'] = 'bad-signature'
+    ok, reason, fail_path, checks = verify_trust_block(res['receiptHash'], res['eventRoot'], trust)
+    assert ok is False
+    assert reason == 'BAD_SIGNATURE'
+    assert fail_path == 'trust.signature'
+
+
+def test_trust_block_wrong_signed_fields_maps_cleanly():
+    evidence = load_sample()
+    res = adapt_stealth_handoff_evidence(evidence)
+    trust = dict(res['trust'])
+    trust['signed_fields'] = ['receiptHash']
+    ok, reason, fail_path, checks = verify_trust_block(res['receiptHash'], res['eventRoot'], trust)
+    assert ok is False
+    assert reason == 'TRUST_BLOCK_INVALID'
+    assert fail_path == 'trust.signed_fields'
+
+
+def test_trust_block_receipt_hash_mismatch_maps_bad_signature():
+    evidence = load_sample()
+    res = adapt_stealth_handoff_evidence(evidence)
+    ok, reason, fail_path, checks = verify_trust_block('wrong-hash', res['eventRoot'], dict(res['trust']))
+    assert ok is False
+    assert reason == 'BAD_SIGNATURE'
+    assert fail_path == 'trust.signature'
+
+
+def test_trust_block_event_root_mismatch_maps_bad_signature():
+    evidence = load_sample()
+    res = adapt_stealth_handoff_evidence(evidence)
+    ok, reason, fail_path, checks = verify_trust_block(res['receiptHash'], 'wrong-root', dict(res['trust']))
+    assert ok is False
+    assert reason == 'BAD_SIGNATURE'
+    assert fail_path == 'trust.signature'
 
 
 def test_stealth_adapter_internal_error_maps_cleanly(monkeypatch):

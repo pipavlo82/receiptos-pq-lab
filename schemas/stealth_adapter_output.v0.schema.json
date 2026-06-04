@@ -11,7 +11,8 @@
     "details",
     "receipt",
     "receiptHash",
-    "eventRoot"
+    "eventRoot",
+    "trust"
   ],
   "properties": {
     "valid": { "type": "boolean" },
@@ -30,14 +31,20 @@
     },
     "checks": {
       "type": "object",
-      "required": ["schema", "receipt_hash", "event_root", "scope", "commands", "diff_commitment"],
+      "required": ["schema", "receipt_hash", "event_root", "scope", "commands", "diff_commitment", "signature_present", "key_id_present", "signed_fields_match", "signature_valid", "signer_allowed", "trust_block_valid"],
       "properties": {
         "schema": { "type": "boolean" },
         "receipt_hash": { "type": "boolean" },
         "event_root": { "type": "boolean" },
         "scope": { "type": "boolean" },
         "commands": { "type": "boolean" },
-        "diff_commitment": { "type": "boolean" }
+        "diff_commitment": { "type": "boolean" },
+        "signature_present": { "type": "boolean" },
+        "key_id_present": { "type": "boolean" },
+        "signed_fields_match": { "type": "boolean" },
+        "signature_valid": { "type": "boolean" },
+        "signer_allowed": { "type": "boolean" },
+        "trust_block_valid": { "type": "boolean" }
       },
       "additionalProperties": true
     },
@@ -85,7 +92,8 @@
             "changed",
             "metadata",
             "eventRoot",
-            "receiptHash"
+            "receiptHash",
+            "trust"
           ]
         },
         { "type": "null" }
@@ -100,6 +108,27 @@
     "eventRoot": {
       "anyOf": [
         { "type": "string" },
+        { "type": "null" }
+      ]
+    },
+    "trust": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": ["signer_id", "key_id", "algorithm", "signed_fields", "signature", "trust_mode"],
+          "properties": {
+            "signer_id": { "type": "string" },
+            "key_id": { "type": "string" },
+            "algorithm": { "type": "string" },
+            "signed_fields": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "signature": { "type": "string" },
+            "trust_mode": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
         { "type": "null" }
       ]
     }
