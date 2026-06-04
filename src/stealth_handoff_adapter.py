@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import hmac
 import json
 from typing import Any, Dict, List
 
@@ -15,6 +16,49 @@ def sha256_hex_text(text: str) -> str:
 
 def sha256_hex_obj(obj: Any) -> str:
     return sha256_hex_text(canonical(obj))
+
+
+DEMO_TRUST_SECRET = b"receiptos-stealth-demo-trust-v1"
+
+
+def sign_trust_payload(payload: Any, secret: bytes = DEMO_TRUST_SECRET) -> str:
+    return hmac.new(secret, canonical(payload).encode("utf-8"), hashlib.sha256).hexdigest()
+
+
+def verify_trust_block(receipt_hash: str, event_root: str, trust: Dict[str, Any]) -> tuple[bool, str, str | None, Dict[str, bool]]:
+    checks = {
+        "signature_present": bool(trust.get("signature")),
+        "key_id_present": bool(trust.get("key_id")),
+        "signed_fields_match": trust.get("signed_fields") == ["receiptHash", "eventRoot"],
+        "receipt_hash_matches": True,
+        "event_root_matches": True,
+        "signature_valid": False,
+        "signer_allowed": bool(trust.get("signer_id")),
+        "trust_block_valid": False,
+    }
+
+    required = ["signer_id", "key_id", "algorithm", "signed_fields", "trust_mode"]
+    missing = [field for field in required if field not in trust]
+    if missing:
+        return False, "TRUST_BLOCK_INVALID", missing[0], checks
+    if "signature" not in trust or not checks["signature_present"]:
+        return False, "MISSING_SIGNATURE", "trust.signature", checks
+    if not checks["key_id_present"]:
+        return False, "TRUST_BLOCK_INVALID", "trust.key_id", checks
+    if not checks["signed_fields_match"]:
+        return False, "TRUST_BLOCK_INVALID", "trust.signed_fields", checks
+    if trust.get("algorithm") != "demo-hmac":
+        return False, "UNTRUSTED_SIGNER", "trust.algorithm", checks
+    if trust.get("trust_mode") != "signature_extension":
+        return False, "TRUST_BLOCK_INVALID", "trust.trust_mode", checks
+
+    expected = sign_trust_payload({"receiptHash": receipt_hash, "eventRoot": event_root})
+    checks["signature_valid"] = hmac.compare_digest(str(trust.get("signature")), expected)
+    if not checks["signature_valid"]:
+        return False, "BAD_SIGNATURE", "trust.signature", checks
+
+    checks["trust_block_valid"] = True
+    return True, "OK", None, checks
 
 
 REQUIRED_TOP_LEVEL = [
@@ -41,12 +85,19 @@ def _fail(reason_code: str, fail_path: str | None, details: Dict[str, Any]) -> D
             "scope": False,
             "commands": False,
             "diff_commitment": False,
+            "signature_present": False,
+            "key_id_present": False,
+            "signed_fields_match": False,
+            "signature_valid": False,
+            "signer_allowed": False,
+            "trust_block_valid": False,
         },
         "fail_path": fail_path,
         "details": details,
         "receipt": None,
         "receiptHash": None,
         "eventRoot": None,
+        "trust": None,
     }
 
 
@@ -153,6 +204,21 @@ def adapt_stealth_handoff_evidence(evidence: Dict[str, Any]) -> Dict[str, Any]:
         }
         receipt_hash = sha256_hex_obj(receipt)
 
+        trust_payload = {
+            "receiptHash": receipt_hash,
+            "eventRoot": event_root,
+        }
+        trust = {
+            "signer_id": evidence["agent"]["id"],
+            "key_id": "stealth-demo-key-001",
+            "algorithm": "demo-hmac",
+            "signed_fields": ["receiptHash", "eventRoot"],
+            "signature": sign_trust_payload(trust_payload),
+            "trust_mode": "signature_extension",
+        }
+
+        trust_ok, trust_reason, trust_fail_path, trust_checks = verify_trust_block(receipt_hash, event_root, trust)
+
         checks = {
             "schema": True,
             "receipt_hash": True,
@@ -160,12 +226,30 @@ def adapt_stealth_handoff_evidence(evidence: Dict[str, Any]) -> Dict[str, Any]:
             "scope": True,
             "commands": True,
             "diff_commitment": "diff_sha256" in evidence.get("changes", {}),
+            **trust_checks,
         }
 
         full_receipt = {
             **receipt,
             "receiptHash": receipt_hash,
+            "trust": trust,
         }
+
+        if not trust_ok:
+            return {
+                "valid": False,
+                "reason_code": trust_reason,
+                "checks": checks,
+                "fail_path": trust_fail_path,
+                "details": {
+                    "source": "STEALTH_HANDOFF",
+                    "transcript": transcript,
+                },
+                "receipt": full_receipt,
+                "receiptHash": receipt_hash,
+                "eventRoot": event_root,
+                "trust": trust,
+            }
 
         return {
             "valid": True,
@@ -179,6 +263,7 @@ def adapt_stealth_handoff_evidence(evidence: Dict[str, Any]) -> Dict[str, Any]:
             "receipt": full_receipt,
             "receiptHash": receipt_hash,
             "eventRoot": event_root,
+            "trust": trust,
         }
     except KeyError as exc:
         return _fail("TAMPER", str(exc).strip("'"), {"error": "missing required command field"})
