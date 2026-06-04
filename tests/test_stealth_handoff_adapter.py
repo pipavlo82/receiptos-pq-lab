@@ -26,6 +26,27 @@ def test_stealth_adapter_ok():
     assert isinstance(res['details']['transcript'], list)
 
 
+def test_stealth_adapter_transcript_is_sequence_aware():
+    evidence = load_sample()
+    res = adapt_stealth_handoff_evidence(evidence)
+    transcript = res['details']['transcript']
+    assert [event['seq'] for event in transcript] == [1, 2]
+    assert transcript[0]['type'] == 'command'
+    assert transcript[1]['type'] == 'change'
+    assert transcript[0]['prev_hash'] == 'GENESIS'
+    assert transcript[1]['prev_hash'] == transcript[0]['event_hash']
+    assert res['eventRoot'] == transcript[-1]['event_hash']
+
+
+def test_stealth_adapter_event_hash_changes_with_command_content():
+    evidence = load_sample()
+    original = adapt_stealth_handoff_evidence(evidence)
+    evidence['commands'][0]['stdout_summary'] = 'changed-output-summary'
+    changed = adapt_stealth_handoff_evidence(evidence)
+    assert original['details']['transcript'][0]['event_hash'] != changed['details']['transcript'][0]['event_hash']
+    assert original['eventRoot'] != changed['eventRoot']
+
+
 def test_stealth_adapter_output_shape_is_stable():
     evidence = load_sample()
     expected = load_expected_ok()

@@ -69,7 +69,7 @@ def _validate_required(evidence: Dict[str, Any]) -> tuple[bool, str | None, str 
     return True, None, None
 
 
-def _build_transcript(commands: List[Dict[str, Any]]) -> tuple[List[Dict[str, Any]], str]:
+def _build_transcript(commands: List[Dict[str, Any]], changes: Dict[str, Any], metadata: Dict[str, Any]) -> tuple[List[Dict[str, Any]], str]:
     transcript: List[Dict[str, Any]] = []
     prev_hash = "GENESIS"
     for idx, command in enumerate(commands, start=1):
@@ -78,17 +78,35 @@ def _build_transcript(commands: List[Dict[str, Any]]) -> tuple[List[Dict[str, An
         cmd = command.get("command")
         if not isinstance(cmd, str) or not cmd.strip():
             raise KeyError(f"commands[{idx-1}].command")
-        event = {
-            "seq": idx,
+        payload = {
             "command": cmd,
             "exit_code": command.get("exit_code"),
             "stdout_summary": command.get("stdout_summary"),
+        }
+        event = {
+            "seq": idx,
+            "type": "command",
+            "command": payload,
             "prev_hash": prev_hash,
         }
         event_hash = sha256_hex_obj(event)
         transcript.append({**event, "event_hash": event_hash})
         prev_hash = event_hash
-    return transcript, prev_hash
+
+    change_payload = {
+        "files_changed": changes.get("files_changed", []),
+        "diff_sha256": changes.get("diff_sha256"),
+        "diff_count": metadata.get("diff_count"),
+    }
+    change_event = {
+        "seq": len(commands) + 1,
+        "type": "change",
+        "change": change_payload,
+        "prev_hash": prev_hash,
+    }
+    event_hash = sha256_hex_obj(change_event)
+    transcript.append({**change_event, "event_hash": event_hash})
+    return transcript, event_hash
 
 
 def adapt_stealth_handoff_evidence(evidence: Dict[str, Any]) -> Dict[str, Any]:
@@ -97,7 +115,11 @@ def adapt_stealth_handoff_evidence(evidence: Dict[str, Any]) -> Dict[str, Any]:
         if not ok:
             return _fail("TAMPER", field, {"error": message})
 
-        transcript, event_root = _build_transcript(evidence["commands"])
+        transcript, event_root = _build_transcript(
+            evidence["commands"],
+            evidence["changes"],
+            evidence["metadata"],
+        )
 
         receipt = {
             "source": "STEALTH_HANDOFF",
