@@ -133,8 +133,8 @@ def test_trust_block_missing_signature_maps_cleanly():
     del trust['signature']
     ok, reason, fail_path, checks = verify_trust_block(res['receiptHash'], res['eventRoot'], trust)
     assert ok is False
-    assert reason == 'TRUST_BLOCK_INVALID'
-    assert fail_path == 'signature'
+    assert reason == 'MISSING_SIGNATURE'
+    assert fail_path == 'trust.signature'
 
 
 def test_trust_block_bad_signature_maps_cleanly():
