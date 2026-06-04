@@ -7,7 +7,15 @@
     "event_root": true,
     "scope": true,
     "commands": true,
-    "diff_commitment": true
+    "diff_commitment": true,
+    "signature_present": true,
+    "key_id_present": true,
+    "signed_fields_match": true,
+    "receipt_hash_matches": true,
+    "event_root_matches": true,
+    "signature_valid": true,
+    "signer_allowed": true,
+    "trust_block_valid": true
   },
   "fail_path": null,
   "details": {
@@ -62,8 +70,30 @@
       "generated_by": "stealth.handoff.evidence.builder.v0"
     },
     "eventRoot": "58bc4bfa81475e983bfcc67d03b1879a59bcb7837815d43055ff45f057f899f4",
-    "receiptHash": "b5ced9ef2dd748ea2171e1e88ed063bf541d8c0a84e1c81a29fafb0f5f976811"
+    "receiptHash": "b5ced9ef2dd748ea2171e1e88ed063bf541d8c0a84e1c81a29fafb0f5f976811",
+    "trust": {
+      "signer_id": "stealth-demo-agent",
+      "key_id": "stealth-demo-key-001",
+      "algorithm": "demo-hmac",
+      "signed_fields": [
+        "receiptHash",
+        "eventRoot"
+      ],
+      "signature": "a2b9f9f086ae50f9e668288a390e425047cc7f2426af57f7f17dd8e8ed4d940e",
+      "trust_mode": "signature_extension"
+    }
   },
   "receiptHash": "b5ced9ef2dd748ea2171e1e88ed063bf541d8c0a84e1c81a29fafb0f5f976811",
-  "eventRoot": "58bc4bfa81475e983bfcc67d03b1879a59bcb7837815d43055ff45f057f899f4"
+  "eventRoot": "58bc4bfa81475e983bfcc67d03b1879a59bcb7837815d43055ff45f057f899f4",
+  "trust": {
+    "signer_id": "stealth-demo-agent",
+    "key_id": "stealth-demo-key-001",
+    "algorithm": "demo-hmac",
+    "signed_fields": [
+      "receiptHash",
+      "eventRoot"
+    ],
+    "signature": "a2b9f9f086ae50f9e668288a390e425047cc7f2426af57f7f17dd8e8ed4d940e",
+    "trust_mode": "signature_extension"
+  }
 }
